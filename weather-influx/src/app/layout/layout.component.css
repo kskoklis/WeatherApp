@@ -1,0 +1,16 @@
+.layout-wrapper{
+  height: 100%;
+}
+
+.flex-wrapper{
+  height: 100%;
+}
+
+/* .mat-toolbar{
+  background-color: #a2a2a2;
+} */
+
+.navBardemoBasicUsage md-content .ext-content {
+  padding: 50px;
+  margin: 20px;
+  background-color: #FFF2E0; }
