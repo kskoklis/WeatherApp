@@ -5,11 +5,7 @@ a {
 
 ul {
   list-style-type: none;
-}
-
-li{
-  float: left;
-  margin: 5px;
+  display: flex;
 }
 
 #home:hover{
