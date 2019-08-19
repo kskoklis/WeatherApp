@@ -12,6 +12,7 @@ import { MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatIc
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HeaderComponent } from './header/header.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { HeaderComponent } from './header/header.component';
     LayoutComponent,
     LoginComponent,
     RegisterComponent,
-    HeaderComponent
+    HeaderComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule,

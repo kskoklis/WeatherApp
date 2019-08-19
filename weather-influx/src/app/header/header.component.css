@@ -8,6 +8,8 @@ ul {
   display: flex;
 }
 
+
+
 #home:hover{
   cursor: pointer;
 }
