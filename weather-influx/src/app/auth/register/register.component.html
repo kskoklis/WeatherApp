@@ -1,0 +1,28 @@
+<div fxLayoutAlign="center center" >
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <mat-card>
+    <mat-card-content>
+      <form class="my-form" (submit)="onSignup(signupForm)" #signupForm="ngForm">
+        <mat-form-field class="full-width">
+          <mat-label>Username</mat-label>
+          <input  matInput type="text" placeholder="Username" name="username" ngModel #uname="ngModel" required>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Email</mat-label>
+            <input  matInput type="email" placeholder="Email"  name="email" ngModel #mail="ngModel" email >
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <mat-label>Password</mat-label>
+          <input  matInput type="password" placeholder="Password"  name="password" ngModel #password="ngModel" required>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Retype Password</mat-label>
+            <input  matInput type="password" placeholder="Retype Password"  name="retypepassword" ngModel #passwordretype="ngModel" required>
+          </mat-form-field>
+        <div fxLayoutAlign="center center" >
+          <button mat-raised-button fxLayout="row" type="submit" color="primary">REGISTER  <mat-icon>how_to_reg</mat-icon></button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

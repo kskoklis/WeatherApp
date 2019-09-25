@@ -1,0 +1,15 @@
+mat-toolbar, div {
+  margin-top: 1rem;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+mat-icon {
+  line-height: 20px;
+}
