@@ -1,4 +1,4 @@
-mat-toolbar, div {
+mat-toolbar{
   margin-top: 1rem;
 }
 
@@ -12,4 +12,8 @@ mat-spinner {
 
 mat-icon {
   line-height: 20px;
+}
+
+mat-card {
+  margin-top: 2rem;
 }

@@ -2,19 +2,19 @@
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <mat-card>
     <mat-card-content>
-      <form (submit)="onLogin(loginForm)"  *ngIf="!isLoading">
+      <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
         <mat-form-field  >
-          <mat-label>Email</mat-label>
-          <input  matInput  placeholder="Email" name="email" >
+          <mat-label>Username</mat-label>
+          <input  matInput  placeholder="Username" ngModel #uname="ngModel" name="username" required>
         </mat-form-field>
         <mat-form-field  >
           <mat-label>Password</mat-label>
-          <input  matInput  placeholder="Password" name="password">
+          <input  matInput type="password"  placeholder="Password" ngModel #passwd="ngModel" name="password" required>
         </mat-form-field>
+        <div fxLayoutAlign="center center">
+          <button mat-raised-button fxLayout="row"  color="primary">LOGIN  <mat-icon>send</mat-icon></button>
+        </div>  
       </form>
     </mat-card-content>
-    <mat-card-actions fxLayoutAlign="center center" >
-      <button mat-raised-button fxLayout="row"  (click)="login()" color="primary">LOGIN  <mat-icon>send</mat-icon></button>
-    </mat-card-actions>
   </mat-card>
 </div>
