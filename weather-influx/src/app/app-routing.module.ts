@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LayoutComponent } from './layout/layout.component';
+
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { WeatherInfoComponent } from './weather-info/weather-info.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 
 const routes: Routes = [
-  { path: '', component: LayoutComponent},
+  { path: '', component: WeatherInfoComponent},
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
   { path: 'stats', component: StatisticsComponent}

@@ -6,18 +6,19 @@ import { AppComponent } from './app.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { ReactiveFormsModule, FormsModule} from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { LayoutComponent } from './layout/layout.component';
 import { MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatIconModule,
-          MatProgressSpinnerModule } from '@angular/material/';
+          MatProgressSpinnerModule, MatFormFieldModule, MatSelectModule } from '@angular/material/';
 
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { HeaderComponent } from './header/header.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { AuthInterceptor } from "./auth/auth-interceptor";
+import { WeatherInfoComponent } from './weather-info/weather-info.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { AuthInterceptor } from "./auth/auth-interceptor";
     LoginComponent,
     RegisterComponent,
     HeaderComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    WeatherInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +42,10 @@ import { AuthInterceptor } from "./auth/auth-interceptor";
     MatIconModule,
     MatProgressSpinnerModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatSelectModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
