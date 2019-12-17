@@ -2,24 +2,24 @@
   <div class="city"> 
     <h1>Select a city</h1>
     <mat-form-field>
-      <mat-select placeholder="Select a city" [formControl]="cityControl" required>
+      <mat-select placeholder="Select a city" [formControl]="cityControl"  required>
         <mat-option>---</mat-option>
-        <mat-option *ngFor="let food of cities" [value]="food.value">
-          {{food.viewValue}}
+        <mat-option *ngFor="let city of cities" [value]="city.value">
+          {{city.viewValue}}
         </mat-option>
       </mat-select>
       <!-- <mat-error *ngIf="animalControl.hasError('required')">Please choose an animal</mat-error> -->
     </mat-form-field>
   </div>
   <div class="location">
-    <h2 class="location-timezone">Timezone</h2>
-    <p class="location-icon">Icon</p>
+    <h2 class="location-timezone">{{city}}, {{country}}</h2>
+    <img class="location-icon" src="{{ imgUrl }}">
   </div>
   <div class="temperature">
     <div class="degree-section">
-      <h2 class="temperature-degree">20</h2>
-      <p>F</p>
+      <h2 class="temperature-degree"> {{temperature}}</h2>
+      <p>°C</p>
     </div>
-    <div class="temperature-description">mild weather</div>
+    <div class="temperature-description">{{description}}</div>
   </div>
 </span>

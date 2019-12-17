@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const userRoutes = require("./routes/user");
+const weatherRoutes = require("./routes/influxdb");
 
 const app = express();
 mongoose.connect("mongodb://admin:1nfluxDB@127.0.0.1:27017/users?authSource=admin", { useCreateIndex: true, useNewUrlParser: true})
@@ -26,5 +27,5 @@ app.use((req,res,next) => {
 
 
 app.use("/api/user", userRoutes);
-
+app.use("/api/weather", weatherRoutes);
 module.exports = app;

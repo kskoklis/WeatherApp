@@ -17,7 +17,7 @@ mat-form-field {
 }
 
 .location, .temperature {
-    height: 30vh;
+    height: 20vh;
     width: 50%;
     display: flex;
     justify-content: space-around;
@@ -41,4 +41,9 @@ mat-form-field {
 
 .degree-section h2 {
     font-size: 40px;
+}
+
+.temperature-description {
+    font-size: 25px;
+    align-items: center;
 }
