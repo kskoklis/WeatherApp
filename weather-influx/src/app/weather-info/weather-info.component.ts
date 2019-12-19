@@ -24,7 +24,7 @@ export class WeatherInfoComponent implements OnInit {
   ];
 
   private weatherSubscription: Subscription;
-  weatherinfo: Weather;
+  weatherinfo: Weather[];
 
   city: string;
   country: string;
@@ -32,28 +32,35 @@ export class WeatherInfoComponent implements OnInit {
   temperature: number;
   description: string;
   imgUrl: string;
+
   constructor(private weatherService: WeatherService) { }
 
   ngOnInit() {
     this.weatherService.getWeatherInfo();
     this.weatherSubscription = this.weatherService.getWeatherUpdateListener()
-    .subscribe((result: Weather) => {
+    .subscribe((result: Weather[]) => {
       this.weatherinfo = result;
+      console.log(this.weatherinfo);
+      this.setValues(this.weatherinfo)
       
-      this.temperature = Math.trunc(this.weatherinfo[0].last);
-      this.city = this.weatherinfo[0].name;
-      this.icon = this.weatherinfo[0].weather_0_icon;
-      this.country = this.weatherinfo[0].sys_country;
-      this.description = this.weatherinfo[0].weather_0_description;
-      this.imgUrl = "../../assets/images/"+this.icon+".png";
-      console.log(this.temperature + " city: "+ this.city +" icon: "+ this.icon + " country" +this.country 
-      + "desc " + this.description);
+      // console.log(this.temperature + " city: "+ this.city +" icon: "+ this.icon + " country" +this.country 
+      // + "desc " + this.description);
     });
   }
 
-  onChange(){
-    //console.log(this.cities[].viewValue);
+  onChange(ev) {
+    let city = ev.source.selected.viewValue;
+    console.log(city);
+    
     
   }
 
+  setValues(infos: Weather[]) {
+    this.temperature = Math.trunc(infos[0].temperature);
+    this.city = infos[0].city;
+    this.icon = infos[0].icon;
+    this.country = infos[0].country;
+    this.description = infos[0].description;
+    this.imgUrl = "../../assets/images/"+this.icon+".png";
+  }
 }
