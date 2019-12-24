@@ -19,9 +19,9 @@ influxClient.getDatabaseNames()
 });
 
 
-influxClient.query(`select "name", sys_country, weather_0_icon, last(main_temp), weather_0_description from http limit 2`)
+influxClient.query(`select distinct("id") as id from http group by "name"`)
     .then(result => {
-        console.log(result['0'].name);
+        console.log(result);
     });
 // let id = 734077;// thessaloniki select * from http where id = ${id}
 // influxClient.query(`select * from http where main_temp = (select last(main_temp) from http)`)
@@ -35,8 +35,8 @@ influxClient.query(`select "name", sys_country, weather_0_icon, last(main_temp),
     main_temp -> temperature in Celsius
     weather_0_description
 */
-router.get("", (req, res, next) => {
-    influxClient.query(`select "name", sys_country, weather_0_icon, last(main_temp), weather_0_description from http`)
+router.get("/inf", (req, res, next) => {
+    influxClient.query(`select "name", sys_country, weather_0_icon, last(main_temp), weather_0_description, id from http where id=734077`)
     .then(result => {
         console.log(result);
         res.status(200).json({
@@ -47,6 +47,40 @@ router.get("", (req, res, next) => {
     .catch(err => {
         res.status(404).json({
             message: "Failed to fetch data"
+        });
+    });
+});
+
+router.get("/inf/:id", (req, res, next) => {
+    console.log(req.params.id);
+    influxClient.query(`select "name", sys_country, weather_0_icon, last(main_temp), weather_0_description, id from http where id=`+ req.params.id)
+    .then(result => {
+        console.log(result);
+        res.status(200).json({
+            message: "Data with specific id was fetched successfully",
+            result: result
+        });
+    })
+    .catch(err => {
+        res.status(404).json({
+            message: "Failed to fetch data"
+        });
+    });
+    //res.status(200).json({ message: "GET id!"});
+});
+
+router.get("/towns", (req,res,next) => {    
+    influxClient.query(`select distinct("id") as id from http group by "name"`)
+    .then(result => {
+        console.log(result);
+        res.status(200).json({
+            message: "Cities was fetched successfully",
+            result: result
+        });
+    })
+    .catch(err => {
+        res.status(404).json({
+            message: "Failed to fetch cities"
         });
     });
 });
