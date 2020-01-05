@@ -14,12 +14,6 @@ import { Cities } from "./cities.model";
 export class WeatherInfoComponent implements OnInit, OnDestroy {
 
   cityControl = new FormControl('', [Validators.required]);
-  // cities: Cities[] = [
-  //   {id: '264371', name: 'Athens'},
-  //   {id: '734077', name: 'Thessaloniki'},
-  //   {id: '255683', name: 'Patra'}
-  // ];
-
   private weatherSubscription: Subscription;
   private citiesSubscription: Subscription;
   weatherinfo: Weather[];
@@ -41,24 +35,17 @@ export class WeatherInfoComponent implements OnInit, OnDestroy {
     this.weatherSubscription = this.weatherService.getWeatherUpdateListener()
     .subscribe((result: Weather[]) => {
       this.weatherinfo = result;
-      console.log(this.weatherinfo);
-      this.setValues(this.weatherinfo);
       
-      // console.log(this.temperature + " city: "+ this.city +" icon: "+ this.icon + " country" +this.country 
-      // + "desc " + this.description);
+      this.setValues(this.weatherinfo);
     });
     this.citiesSubscription = this.weatherService.getCitiesUpdateListener()
     .subscribe((t: Cities[]) => {
       this.cities = t;
-      console.log(this.cities);
-      
     });
   }
 
   onChange(ev) {
     let city = ev.source.selected.viewValue;
-    console.log(city);
-    console.log(ev.value);
     let id = ev.value;
     this.weatherService.getWeatherInfoById(id);
   }

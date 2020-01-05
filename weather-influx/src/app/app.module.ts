@@ -11,7 +11,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { LayoutComponent } from './layout/layout.component';
 import { MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatIconModule,
-          MatProgressSpinnerModule, MatFormFieldModule, MatSelectModule } from '@angular/material/';
+          MatProgressSpinnerModule, MatFormFieldModule, MatSelectModule, MatMenuModule,
+          MatDatepickerModule, MatNativeDateModule, MatGridListModule } from '@angular/material/';
 
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
@@ -19,6 +20,7 @@ import { HeaderComponent } from './header/header.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { AuthInterceptor } from "./auth/auth-interceptor";
 import { WeatherInfoComponent } from './weather-info/weather-info.component';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,12 @@ import { WeatherInfoComponent } from './weather-info/weather-info.component';
     HttpClientModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    HighchartsChartModule,
+    MatMenuModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatGridListModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],

@@ -1,0 +1,13 @@
+ul, li {
+  width: 30%;
+}
+
+ul{
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+}
+
+li {
+  margin: 1rem;
+}

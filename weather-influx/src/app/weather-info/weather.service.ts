@@ -30,8 +30,6 @@ export class WeatherService{
       .subscribe(transformedWeatherData => {
         this.weather = transformedWeatherData;
         this.weatherUpdated.next([...this.weather]);
-        //console.log(this.weather);
-        
       });
   }
 
@@ -56,7 +54,6 @@ export class WeatherService{
     .subscribe(transformedWeatherData => {
       this.weather = transformedWeatherData;
       this.weatherUpdated.next([...this.weather]);
-      console.log(this.weather);
     });
   }
 
@@ -64,8 +61,7 @@ export class WeatherService{
     this.http.get<{message: string, result: Cities[]}>('http://83.212.118.254:3000/api/weather/towns')
     .subscribe((citiesData) => {
       this.cities = citiesData.result;
-      this.citiesUpdated.next([...this.cities])
-      console.log(this.cities);
+      this.citiesUpdated.next([...this.cities]);
     });
   }
 
