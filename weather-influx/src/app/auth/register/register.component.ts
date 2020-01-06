@@ -9,6 +9,7 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+  isLoading = false;
 
   constructor(public authService: AuthService) { }
 
@@ -19,6 +20,7 @@ export class RegisterComponent implements OnInit {
     if (form.invalid){
       return;
     }
+    this.isLoading = true;
     this.authService.createUser(form.value.username, form.value.email, form.value.password);
   }
 }

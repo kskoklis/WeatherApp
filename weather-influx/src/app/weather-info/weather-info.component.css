@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+mat-spinner { 
+    margin: auto;
+}
+
 span {
     height: 90vh;
     display: flex;

@@ -13,6 +13,7 @@ import { Cities } from "./cities.model";
 })
 export class WeatherInfoComponent implements OnInit, OnDestroy {
 
+  isLoading = false;
   cityControl = new FormControl('', [Validators.required]);
   private weatherSubscription: Subscription;
   private citiesSubscription: Subscription;
@@ -30,10 +31,12 @@ export class WeatherInfoComponent implements OnInit, OnDestroy {
   constructor(private weatherService: WeatherService) { }
 
   ngOnInit() {
+    this.isLoading = true;
     this.weatherService.getWeatherInfo();
     this.weatherService.getCities();
     this.weatherSubscription = this.weatherService.getWeatherUpdateListener()
     .subscribe((result: Weather[]) => {
+      this.isLoading = false;
       this.weatherinfo = result;
       
       this.setValues(this.weatherinfo);
@@ -60,13 +63,6 @@ export class WeatherInfoComponent implements OnInit, OnDestroy {
     this.imgUrl = "../../assets/images/"+this.icon+".png";
   }
 
-  getTowns(){
-    this.weatherService.getCities();
-  }
-
-  setCities(){
-
-  }
   ngOnDestroy(){
     this.weatherSubscription.unsubscribe();
     this.citiesSubscription.unsubscribe();

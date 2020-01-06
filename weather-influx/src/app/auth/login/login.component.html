@@ -12,8 +12,9 @@
           <input  matInput type="password"  placeholder="Password" ngModel #passwd="ngModel" name="password" required>
         </mat-form-field>
         <div fxLayoutAlign="center center">
-          <button mat-raised-button fxLayout="row"  color="primary">LOGIN  <mat-icon>send</mat-icon></button>
+          <button mat-raised-button fxLayout="row" *ngIf="!isLoading" color="primary">LOGIN  <mat-icon>send</mat-icon></button>
         </div>  
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
       </form>
     </mat-card-content>
   </mat-card>
