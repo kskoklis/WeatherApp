@@ -14,7 +14,7 @@ export class StatisticsComponent implements OnInit {
       text: 'My title'
     },
     series: [{
-      data: [1, 2, 3],
+      data: [1, 2, 3, 4],
       type: 'line'
     }]
   };
@@ -26,4 +26,8 @@ export class StatisticsComponent implements OnInit {
   ngOnInit() {
   }
 
+  // onClick(ev){
+  //   console.log(ev.source);
+    
+  // }
 }

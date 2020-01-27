@@ -12,7 +12,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LayoutComponent } from './layout/layout.component';
 import { MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatIconModule,
           MatProgressSpinnerModule, MatFormFieldModule, MatSelectModule, MatMenuModule,
-          MatDatepickerModule, MatNativeDateModule, MatGridListModule } from '@angular/material/';
+          MatDatepickerModule, MatNativeDateModule, MatGridListModule, MatDividerModule,
+          MatRadioModule } from '@angular/material/';
 
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
@@ -52,7 +53,9 @@ import { HighchartsChartModule } from 'highcharts-angular';
     MatMenuModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatGridListModule
+    MatGridListModule,
+    MatDividerModule,
+    MatRadioModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],

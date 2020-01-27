@@ -19,22 +19,11 @@ influxClient.getDatabaseNames()
 });
 
 
-influxClient.query(`select distinct("id") as id from http group by "name"`)
+influxClient.query(`select "name", sys_country, weather_0_icon, last(main_temp), weather_0_description, id from http where id=734077`)
     .then(result => {
         console.log(result);
     });
-// let id = 734077;// thessaloniki select * from http where id = ${id}
-// influxClient.query(`select * from http where main_temp = (select last(main_temp) from http)`)
-// .then(res => {
-//     console.log(res);
-// })
 
-/*  
-    name ->city  and sys_country -> country code(GR)
-    weather_0_icon
-    main_temp -> temperature in Celsius
-    weather_0_description
-*/
 router.get("/inf", (req, res, next) => {
     influxClient.query(`select "name", sys_country, weather_0_icon, last(main_temp), weather_0_description, id from http where id=734077`)
     .then(result => {
@@ -66,7 +55,6 @@ router.get("/inf/:id", (req, res, next) => {
             message: "Failed to fetch data"
         });
     });
-    //res.status(200).json({ message: "GET id!"});
 });
 
 router.get("/towns", (req,res,next) => {    

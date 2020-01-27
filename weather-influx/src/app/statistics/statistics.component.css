@@ -1,13 +1,25 @@
-ul, li {
-  width: 30%;
+mat-divider {
+  height: 100px;
+  margin: 3rem;
 }
 
-ul{
-  list-style-type: none;
-  display: flex;
-  align-items: center;
-}
 
-li {
+/* mat-grid-tile {
+  background: lightblue;
+} */
+
+/* mat-grid-tile {
   margin: 1rem;
+} */
+
+.calendar{
+  margin: 1rem;
+}
+
+.towns {
+  margin-left: 1rem;
+}
+
+mat-radio-button {
+  margin: 0.5rem;
 }

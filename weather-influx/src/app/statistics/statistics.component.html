@@ -1,22 +1,60 @@
-<ul>
-  <li>
-    <mat-menu #appMenu="matMenu">
-      <button mat-menu-item>Settings</button>
-      <button mat-menu-item>Help</button>
-    </mat-menu>
+<mat-grid-list cols="1" rowHeight="6rem">
+  <mat-grid-tile>
+    <mat-form-field class="towns">
+      <mat-select placeholder="Select a city" required>
+        <mat-option>---</mat-option>
+        <!-- <mat-option *ngFor="let city of cities" value="{{city.id}}">
+          {{ city.name }}
+        </mat-option> -->
+      </mat-select> 
+    <!-- <mat-error *ngIf="animalControl.hasError('required')">Please choose an animal</mat-error> -->
+    </mat-form-field>
+    <mat-divider [vertical]="true"></mat-divider>
 
-    <button mat-icon-button [matMenuTriggerFor]="appMenu">
-      <mat-icon>menu</mat-icon> Charts
-    </button>
-  </li>
-  <li>
+    <label id="example-radio-group-label">Pick your chart: </label>
+    <mat-radio-group aria-label="Select an option" required>
+      <mat-radio-button value="1">Max</mat-radio-button>
+      <mat-radio-button value="2">Mean</mat-radio-button>
+      <mat-radio-button value="3">Min</mat-radio-button>
+    </mat-radio-group>
+
+    <mat-divider [vertical]="true"></mat-divider>
     <mat-form-field>
+    <mat-select placeholder="Select a size" required>
+      <mat-option>---</mat-option>
+      <mat-option value="1">Temperature</mat-option>
+      <mat-option value="2">Humidity</mat-option>
+      <mat-option value="3">Wind</mat-option>
+      <mat-option value="4">Clouds</mat-option>
+    </mat-select> 
+  </mat-form-field>
+  <mat-divider [vertical]="true"></mat-divider>
+  <h4>Predifined time values:</h4>
+  <div class="example-button-row">
+    <button mat-raised-button color="primary">Last hour</button>
+    <button mat-raised-button color="primary">Last day</button>
+    <button mat-raised-button color="primary">Last week</button>
+    <button mat-raised-button color="primary">Last month</button>
+  </div>
+
+  </mat-grid-tile>
+  <mat-grid-tile> 
+    <label id="example-radio-group-label">Custom time values:</label>  <br>
+    <mat-form-field class="calendar">
       <input matInput [matDatepicker]="picker" placeholder="Choose a date">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker startView="year" [startAt]="startDate"></mat-datepicker>
     </mat-form-field>
-  </li>
-</ul>
+  
+    <mat-form-field class="calendar">
+      <input matInput [matDatepicker]="picker2" placeholder="Choose a date">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2 startView="year" [startAt]="startDate"></mat-datepicker>
+    </mat-form-field>
+    <button mat-raised-button color="primary">Apply</button>
+  </mat-grid-tile>
+
+</mat-grid-list>
 
 <highcharts-chart 
   [Highcharts]="Highcharts"
