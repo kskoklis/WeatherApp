@@ -3,15 +3,6 @@ mat-divider {
   margin: 3rem;
 }
 
-
-/* mat-grid-tile {
-  background: lightblue;
-} */
-
-/* mat-grid-tile {
-  margin: 1rem;
-} */
-
 .calendar{
   margin: 1rem;
 }
@@ -22,4 +13,12 @@ mat-divider {
 
 mat-radio-button {
   margin: 0.5rem;
+}
+
+/* input.ng-invalid {
+  color: red
+} */
+
+.error-label {
+  color: red;
 }

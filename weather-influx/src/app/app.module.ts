@@ -21,7 +21,7 @@ import { HeaderComponent } from './header/header.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { AuthInterceptor } from "./auth/auth-interceptor";
 import { WeatherInfoComponent } from './weather-info/weather-info.component';
-import { HighchartsChartModule } from 'highcharts-angular';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +31,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
     RegisterComponent,
     HeaderComponent,
     StatisticsComponent,
-    WeatherInfoComponent
+    WeatherInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +49,6 @@ import { HighchartsChartModule } from 'highcharts-angular';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatSelectModule,
-    HighchartsChartModule,
     MatMenuModule,
     MatDatepickerModule,
     MatNativeDateModule,
