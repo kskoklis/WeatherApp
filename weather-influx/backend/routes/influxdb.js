@@ -19,10 +19,10 @@ influxClient.getDatabaseNames()
 });
 
 
-influxClient.query(`select "name", sys_country, weather_0_icon, last(main_temp), weather_0_description, id from http where id=734077`)
-    .then(result => {
-        console.log(result);
-    });
+// influxClient.query(`select "name", sys_country, weather_0_icon, last(main_temp), weather_0_description, id from http where id=734077`)
+//     .then(result => {
+//         console.log(result);
+//     });
 
 router.get("/inf", (req, res, next) => {
     influxClient.query(`select "name", sys_country, weather_0_icon, last(main_temp), weather_0_description, id from http where id=734077`)
