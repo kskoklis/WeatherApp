@@ -19,7 +19,7 @@
             <input  matInput type="password" placeholder="Retype Password"  name="retypepassword" ngModel #passwordretype="ngModel" required>
           </mat-form-field>
         <div fxLayoutAlign="center center">
-          <button mat-raised-button fxLayout="row" type="submit" *ngIf="!isLoading" color="primary">REGISTER  <mat-icon>how_to_reg</mat-icon></button>
+          <button mat-raised-button fxLayout="row" type="submit" *ngIf="!isLoading" color="primary">REGISTER  <mat-icon>person_add</mat-icon></button>
         </div>
         <mat-spinner *ngIf="isLoading"></mat-spinner>
       </form>
