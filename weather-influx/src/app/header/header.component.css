@@ -8,7 +8,9 @@ ul {
   display: flex;
 }
 
-
+li {
+  margin-left: 0.5em;
+}
 
 #home:hover{
   cursor: pointer;

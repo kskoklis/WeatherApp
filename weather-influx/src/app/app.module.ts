@@ -13,7 +13,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatIconModule,
           MatProgressSpinnerModule, MatFormFieldModule, MatSelectModule, MatMenuModule,
           MatDatepickerModule, MatNativeDateModule, MatGridListModule, MatDividerModule,
-          MatRadioModule } from '@angular/material/';
+          MatRadioModule, MatSnackBarModule } from '@angular/material/';
 
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
@@ -21,6 +21,7 @@ import { HeaderComponent } from './header/header.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { AuthInterceptor } from "./auth/auth-interceptor";
 import { WeatherInfoComponent } from './weather-info/weather-info.component';
+import { SearchCitiesComponent } from './search-cities/search-cities.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { WeatherInfoComponent } from './weather-info/weather-info.component';
     HeaderComponent,
     StatisticsComponent,
     WeatherInfoComponent,
+    SearchCitiesComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +56,8 @@ import { WeatherInfoComponent } from './weather-info/weather-info.component';
     MatNativeDateModule,
     MatGridListModule,
     MatDividerModule,
-    MatRadioModule
+    MatRadioModule,
+    MatSnackBarModule,
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
