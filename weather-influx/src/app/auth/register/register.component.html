@@ -1,7 +1,8 @@
 <div fxLayoutAlign="center center">
   <mat-card>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
     <mat-card-content>
-      <form class="my-form" (submit)="onSignup(signupForm)" #signupForm="ngForm">
+      <form class="my-form" (submit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
         <mat-form-field class="full-width">
           <mat-label>Username</mat-label>
           <input  matInput type="text" placeholder="Username" name="username" ngModel #uname="ngModel" required>
@@ -21,7 +22,6 @@
         <div fxLayoutAlign="center center">
           <button mat-raised-button fxLayout="row" type="submit" *ngIf="!isLoading" color="primary">REGISTER  <mat-icon>person_add</mat-icon></button>
         </div>
-        <mat-spinner *ngIf="isLoading"></mat-spinner>
       </form>
     </mat-card-content>
   </mat-card>

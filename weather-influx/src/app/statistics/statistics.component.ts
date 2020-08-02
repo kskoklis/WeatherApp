@@ -32,6 +32,7 @@ export class StatisticsComponent implements OnInit {
   customErrors = {required: 'Please choose an option'};
   invalidRadioButton: boolean = false;
   invalidDatePicker: boolean = false;
+  isLoading = false;
   constructor(private weatherService: WeatherService, private statisticsService: StatisticsService, private fb: FormBuilder) { 
     console.log(this.startDatee); 
   }
@@ -197,6 +198,7 @@ export class StatisticsComponent implements OnInit {
   }
 
   createGraph(size: string, aggragateFunction: string) {
+    this.isLoading = true;
     let graphText: string, graphTitle: string;
     graphTitle = aggragateFunction;
     if (size == "main_humidity") {
@@ -240,6 +242,7 @@ export class StatisticsComponent implements OnInit {
       ]
     };
     console.log(this.chartOptions);
+    this.isLoading = false;
     Highcharts.chart('container',this.chartOptions);
   
   }
