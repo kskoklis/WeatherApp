@@ -3,8 +3,9 @@ const City = require('../models/city');
 const fs = require('fs');
 const {exec} = require('child_process');
 const router = express.Router();
+const checkAuth = require('../middleware/check-auth');
 
-router.post("/insert", async (req, res, next) => {
+router.post("/insert", checkAuth, async (req, res, next) => {
 
     let checkCity = await City.findOne({ id: req.body.id});
 
