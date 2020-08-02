@@ -47,7 +47,7 @@ export class SearchCitiesService {
         } 
         else {
           console.log(obj.list[0]);
-          this.http.post<any>("http://83.212.118.254:3000/api/city/insert", {"id": obj.list[0].id, "name": obj.list[0].name})//id , name
+          this.http.post<{message: string, result: string}>("http://83.212.118.254:3000/api/city/insert", {"id": obj.list[0].id, "name": obj.list[0].name})//id , name
           .subscribe(response => {
             console.log(response);
             this.cityInfo = response.message;
