@@ -6,18 +6,21 @@
         <mat-form-field class="full-width">
           <mat-label>Username</mat-label>
           <input  matInput type="text" placeholder="Username" name="username" ngModel #uname="ngModel" required>
+          <mat-error *ngIf="uname.invalid">Please enter a valid username.</mat-error>
         </mat-form-field>
         <mat-form-field class="full-width">
             <mat-label>Email</mat-label>
-            <input  matInput type="email" placeholder="Email"  name="email" ngModel #mail="ngModel" email >
+            <input  matInput type="email" placeholder="Email"  name="email" ngModel #mail="ngModel" email>
         </mat-form-field>
         <mat-form-field class="full-width">
           <mat-label>Password</mat-label>
           <input  matInput type="password" placeholder="Password"  name="password" ngModel #password="ngModel" required>
+          <mat-error *ngIf="password.invalid">Please enter a valid password.</mat-error>
         </mat-form-field>
         <mat-form-field class="full-width">
             <mat-label>Retype Password</mat-label>
             <input  matInput type="password" placeholder="Retype Password"  name="retypepassword" ngModel #passwordretype="ngModel" required>
+            <mat-error *ngIf="passwordretype.invalid">Please enter a valid password.</mat-error>
           </mat-form-field>
         <div fxLayoutAlign="center center">
           <button mat-raised-button fxLayout="row" type="submit" *ngIf="!isLoading" color="primary">REGISTER  <mat-icon>person_add</mat-icon></button>
