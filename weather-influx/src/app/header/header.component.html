@@ -2,11 +2,11 @@
   <span id="home"><a routerLink="/"> Weather App </a></span>
   <ul>
     <li *ngIf="userIsAuthenticated">
-      <a routerLink="/stats" routerLinkActive="router-link-active" > Statistics </a>
+      <a routerLink="/stats" routerLinkActive="router-link-active" class="pages-list"> Statistics </a>
     </li>
     <li>       </li>
     <li *ngIf="userIsAuthenticated">
-      <a routerLink="/search" routerLinkActive="router-link-active" > Cities </a>
+      <a routerLink="/search" routerLinkActive="router-link-active" class="pages-list"> Cities </a>
     </li>
   </ul>
   <span fxFlex="1 1 auto"></span>
