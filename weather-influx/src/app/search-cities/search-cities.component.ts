@@ -37,7 +37,9 @@ export class SearchCitiesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.citySubscription.unsubscribe();
+    if(this.citySubscription) {
+      this.citySubscription.unsubscribe();
+    }
   }
 
 }

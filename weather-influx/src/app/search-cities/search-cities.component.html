@@ -3,7 +3,8 @@
   <form (submit)="addCity(addForm)" #addForm="ngForm">
     
       <mat-form-field class="example-full-width">
-        <input matInput placeholder="Insert a new city"  name="cityName" [(ngModel)]="cityName" required>
+        <input matInput placeholder="Insert a new city"  name="cityName" ngModel #cityName="ngModel" required>
+        <mat-error *ngIf="cityName.invalid">Please enter a city name.</mat-error>
       </mat-form-field>
     
       <button mat-raised-button color="primary">Add <mat-icon>add_circle_outline</mat-icon></button>
