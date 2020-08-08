@@ -58,9 +58,9 @@ export class WeatherService{
   }
 
   getCities(){
-    this.http.get<{message: string, cities: Cities[]}>('http://83.212.118.254:3000/api/city/cities')
+    this.http.get<{message: string, result: Cities[]}>('http://83.212.118.254:3000/api/weather/towns')
     .subscribe((citiesData) => {
-      this.cities = citiesData.cities;
+      this.cities = citiesData.result;
       this.citiesUpdated.next([...this.cities]);
     });
   }

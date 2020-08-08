@@ -10,6 +10,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 import { StatisticsService } from "./statistics.service";
 import { Stats } from "./statistics.model";
+import { SearchCitiesService } from '../search-cities/search-cities.service';
 
 @Component({
   selector: 'app-statistics',
@@ -33,13 +34,13 @@ export class StatisticsComponent implements OnInit {
   invalidRadioButton: boolean = false;
   invalidDatePicker: boolean = false;
   isLoading = false;
-  constructor(private weatherService: WeatherService, private statisticsService: StatisticsService, private fb: FormBuilder) { 
+  constructor(private searchCitiesService: SearchCitiesService, private statisticsService: StatisticsService, private fb: FormBuilder) { 
     console.log(this.startDatee); 
   }
 
   ngOnInit() {
-    this.weatherService.getCities();
-    this.citiesSubscription = this.weatherService.getCitiesUpdateListener()
+    this.searchCitiesService.getUserCities();
+    this.citiesSubscription = this.searchCitiesService.getUserCitiesUpdateListener()
     .subscribe((cities: Cities[]) => {
       this.cities = cities;
       console.log(this.cities);

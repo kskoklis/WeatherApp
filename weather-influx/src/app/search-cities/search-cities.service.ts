@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { switchMap } from 'rxjs/operators';
 import { fromEvent, Subject } from "rxjs";
+import { Cities } from '../weather-info/cities.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,9 +10,12 @@ export class SearchCitiesService {
 
   private cityUpdated = new Subject();
   private cityInfo = '';
+  private cities: Cities[] = [];
+  private citiesUpdated = new Subject<Cities[]>();
+
   constructor(private http: HttpClient) { }
 
-  getCitiesIds(city: String) {
+  setCitiesIds(city: String) {
 
     var obj;
     // let getReq = this.http.get<string>("https://openweathermap.org/data/2.5/find?callback=jQuery19107484579824848949_1589908196548&q=Trikala&type=like&sort=population&cnt=30&appid=439d4b804bc8187953eb36d2a8c26a02&_=1589908196549", {responseType: 'text' as 'json'}); //, headers )
@@ -57,7 +61,19 @@ export class SearchCitiesService {
       });
   }
 
-  getCityUpdateListener(){
+  setCityUpdateListener(){
     return this.cityUpdated.asObservable();
   }
+
+  getUserCities() {
+    this.http.get<{message: string, cities: Cities[]}>("http://83.212.118.254:3000/api/city/cities")
+    .subscribe((citiesData) => {
+      this.cities = citiesData.cities;
+      this.citiesUpdated.next([...this.cities]);
+    });
+  }
+  getUserCitiesUpdateListener(){
+    return this.citiesUpdated.asObservable();
+  }
+
 }
