@@ -13,7 +13,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatIconModule,
           MatProgressSpinnerModule, MatFormFieldModule, MatSelectModule, MatMenuModule,
           MatDatepickerModule, MatNativeDateModule, MatGridListModule, MatDividerModule,
-          MatRadioModule, MatSnackBarModule } from '@angular/material/';
+          MatRadioModule, MatSnackBarModule, MatDialogModule } from '@angular/material/';
 
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
@@ -22,6 +22,8 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { AuthInterceptor } from "./auth/auth-interceptor";
 import { WeatherInfoComponent } from './weather-info/weather-info.component';
 import { SearchCitiesComponent } from './search-cities/search-cities.component';
+import { ErrorInterceptor } from './error-interceptor';
+import { ErrorComponent } from './error/error.component';
 
 
 @NgModule({
@@ -34,6 +36,7 @@ import { SearchCitiesComponent } from './search-cities/search-cities.component';
     StatisticsComponent,
     WeatherInfoComponent,
     SearchCitiesComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,9 +61,13 @@ import { SearchCitiesComponent } from './search-cities/search-cities.component';
     MatDividerModule,
     MatRadioModule,
     MatSnackBarModule,
+    MatDialogModule,
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule { }
