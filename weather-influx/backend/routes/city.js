@@ -37,21 +37,25 @@ router.post("/insert", checkAuth, async (req, res, next) => {
                 if (error) {
                     //undo changes
                     fs.writeFile('/etc/telegraf/telegraf.conf', old_config, 'utf8', (err) => { //change file path final path = /etc/telegraf/telegraf.conf
-                        if (err) console.log(err);
+                        if (err) return console.log(err);
                     });
-                    exec("systemctl restart telegraf");
+                    exec("systemctl restart telegraf", () => {
+
+                    });
                     return res.status(500).json({
-                        message: "Adding a city failed!"
+                        error: error.message
                     });
                 }
                 if (stderr) {
                     //undo changes
                     fs.writeFile('/etc/telegraf/telegraf.conf', old_config, 'utf8', (err) => { //change file path final path = /etc/telegraf/telegraf.conf
-                        if (err) console.log(err);
+                        if (err) return console.log(err);
                     });
-                    exec("systemctl restart telegraf");
+                    exec("systemctl restart telegraf", () => {
+
+                    });
                     return res.status(500).json({
-                        message: "Adding a city failed!"
+                        error: stderr
                     });
                 }
                 console.log(`stdout: ${stdout}`);
@@ -66,13 +70,13 @@ router.post("/insert", checkAuth, async (req, res, next) => {
             city.save()
             .then(result => {
                 res.status(201).json({
-                    message: "City was added successfully!",
+                    message: "City was added!",
                     result: result
                 });
             })
             .catch(err =>{
                 res.status(500).json({
-                    message: "Adding a city failed!"
+                    error: err
                 });
             });
         }
@@ -85,14 +89,17 @@ router.post("/insert", checkAuth, async (req, res, next) => {
             city.save()
             .then(result => {
                 res.status(201).json({
-                    message: "City was added successfully!",
+                    message: "City was added!",
                     result: result
                 });
             })
             .catch(err =>{
                 res.status(500).json({
-                    message: "Adding a city failed!"
+                    error: err
                 });
+            });
+            res.status(200).json({
+                message: "City combined with user!"
             });
         }
     }
@@ -111,11 +118,6 @@ router.get("/cities", checkAuth, (req, res, next) =>{
         res.status(200).json({
             message: "Cities fetched successfully!",
             cities: cities
-        });
-    })
-    .catch(err => {
-        res.status(500).json({
-            message: "Failed to fetch cities!"
         });
     });
 });

@@ -17,6 +17,14 @@ influxClient.getDatabaseNames()
 .catch(err => {
     console.error("Error database doesn't exists!!");
 });
+// //max, min, mean
+// //temp -> main_temp, humidity -> main_humidity, wind speed -> wind_speed, clouds -> clouds_all
+influxClient.query(`select mean(main_temp) from http where "name" = 'Thessaloniki' and time>='2020-05-06 00:00:00' and time<='2020-05-08 00:00:00' group by time(1h)`) // leitourgei where time='2020-01-12T20:50:00.000Z'
+    .then(result => {
+        console.log("!!!!!!!!!");
+        
+        console.log("*******HERE*************"+result);
+    });
 
 
 // get mean, max, min
@@ -28,13 +36,17 @@ router.get("/:fun/:size/:id/:start/:end/:period", checkAuth, (req, res, next) =>
             .then(result => {
                 console.log("Result "+result);
                 res.status(200).json({
-                    message: "Data was fetched successfully!",
+                    message: "Mean sizes was fetched successfully",
                     result: result
                 });
+                console.log("asdasdasd", result);
+                console.log(req.params.fun);
+                
             })
             .catch(err => {
-                res.status(500).json({
-                    message: "Failed to fetch data for the graph!"
+                console.log("asdasdasd");
+                res.status(404).json({
+                    message: err
                 });
             });
     } else {
@@ -46,13 +58,13 @@ router.get("/:fun/:size/:id/:start/:end/:period", checkAuth, (req, res, next) =>
             .then(result => {
                 console.log(result);
                 res.status(200).json({
-                    message: "Data was fetched successfully!",
+                    message: "Mean sizes was fetched successfully",
                     result: result
                 });
             })
             .catch(err => {
-                res.status(500).json({
-                    message: "Failed to fetch data for the graph!"
+                res.status(404).json({
+                    message: "Failed to fetch data"
                 });
             });
     }

@@ -7,6 +7,8 @@ const User = require('../models/user');
 const router = express.Router();
 
 router.post("/signup", (req, res, next) => {
+    //console.log(req.body.username);
+
     bcrypt.hash(req.body.password, 10)
     .then(hash => {
         const user = new User({
@@ -23,7 +25,7 @@ router.post("/signup", (req, res, next) => {
         })
         .catch(err => {
             res.status(500).json({
-                message: "Invalid authentication credentials!"
+                error: err
             });
         });
     });
@@ -57,7 +59,7 @@ router.post("/login", (req, res, next) => {
                 })
                 .catch(err => {
                     return res.status(401).json({
-                        message: "Invalid authentication credentials!"
+                        message: "Auth failed!"
                     });
                 });
     });
