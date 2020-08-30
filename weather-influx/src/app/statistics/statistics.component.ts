@@ -40,7 +40,7 @@ export class StatisticsComponent implements OnInit {
 
   ngOnInit() {
     this.searchCitiesService.getUserCities();
-    this.citiesSubscription = this.searchCitiesService.getUserCitiesUpdateListener()
+    this.citiesSubscription = this.searchCitiesService.getCitiesUpdateListener()
     .subscribe((cities: Cities[]) => {
       this.cities = cities;
       console.log(this.cities);

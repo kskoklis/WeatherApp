@@ -25,7 +25,7 @@ export class SearchCitiesComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     console.log(form.value.cityName);
     this.searchService.setCitiesIds(form.value.cityName);
-    this.citySubscription =  this.searchService.setCityUpdateListener()
+    this.citySubscription =  this.searchService.CityUpdateListener()
     .subscribe((message: string) => {
       this.isLoading = false;
       this.snackBar.open(message, "", {
