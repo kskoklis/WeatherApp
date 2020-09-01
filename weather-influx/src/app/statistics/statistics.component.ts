@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { map } from "rxjs/operators";
 import { from } from 'rxjs';
 import * as Highcharts from 'highcharts'
-import { NgForm, FormBuilder, AbstractControl, FormGroup, Validators } from '@angular/forms';
+import { NgForm, FormBuilder, AbstractControl, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 import { StatisticsService } from "./statistics.service";
@@ -20,12 +20,18 @@ import { SearchCitiesService } from '../search-cities/search-cities.service';
 export class StatisticsComponent implements OnInit {
   Highcharts = Highcharts;
   startDatee = new Date(2019, 11, 24); // 24 Dec telegraf started 13:00
+  startDate: Date;
+  endDate: Date;
   cities: Cities[];
   private citiesSubscription: Subscription;
   private statsSubscription: Subscription;
   stats: Stats[] = [];
   tempArray: any = [];
   statsArray: any = [];
+  maxStatsArray: any = [];
+  meanStatsArray: any = [];
+  minStatsArray: any = [];
+
   timeArray: any = [];
   chartOptions: any;
   firstForm: FormGroup;
@@ -60,74 +66,182 @@ export class StatisticsComponent implements OnInit {
     
     switch (time_period) {
       case "Last hour":
-        this.statisticsService.getWeatherStats(aggragateFunction, size, id, "59m", "99", "10m");// every 10 m dld last hour
-        this.statsSubscription = this.statisticsService.getStatsUpdateListener()
-          .subscribe((weatherStats: Stats[]) => {
-            this.stats = weatherStats;
-            console.log(this.stats);
-            this.timeArray = this.stats.map((obj) => {
-              console.log("last hour",obj);
-              let utc= obj.time;
-              let localTime = new Date(utc);
-              return localTime;
+        if (aggragateFunction) {
+          this.statisticsService.getWeatherStats(aggragateFunction, size, id, "59m", "99", "10m");// every 10 m dld last hour
+          this.statsSubscription = this.statisticsService.getStatsUpdateListener()
+            .subscribe((weatherStats: Stats[]) => {
+              this.stats = weatherStats;
+              console.log(this.stats);
+              this.timeArray = this.stats.map((obj) => {
+                console.log("last hour",obj);
+                let utc= obj.time;
+                let localTime = new Date(utc);
+                return localTime;
+              });
+              this.statsArray = this.stats.map((obj) => {
+                return Math.trunc(obj.statistic_value);
+              });
+              this.createGraph(size, aggragateFunction);
             });
-            this.statsArray = this.stats.map((obj) => {
-              return Math.trunc(obj.statistic_value);
+          break;
+        }
+        else {
+          this.statisticsService.getAllWeatherStats(size, id, "59m", "99", "10m");// every 10 m dld last hour
+          this.statsSubscription = this.statisticsService.getAllWeatherStatsUpdateListener()
+            .subscribe((weatherStats: Stats[]) => {
+              this.stats = weatherStats;
+              console.log(this.stats);
+              this.timeArray = this.stats.map((obj) => {
+                console.log("last hour",obj);
+                let utc= obj.time;
+                let localTime = new Date(utc);
+                return localTime;
+              });
+              this.maxStatsArray = this.stats.map((obj) => {
+                return Math.trunc(obj.max);
+              });
+              this.meanStatsArray = this.stats.map((obj) => {
+                return Math.trunc(obj.mean);
+              });
+              this.minStatsArray = this.stats.map((obj) => {
+                return Math.trunc(obj.min);
+              });
+              this.createMultilineGraph(size, "Max - Mean - Min");
             });
-            this.createGraph(size, aggragateFunction);
-          });
-        break;
+          break;
+        }
       case "Last day":
-        this.statisticsService.getWeatherStats(aggragateFunction, size, id, "24h", "99", "1h"); //every hour dld last day button
-        this.statsSubscription = this.statisticsService.getStatsUpdateListener()
-          .subscribe((weatherStats: Stats[]) => {
-            this.stats = weatherStats;
-            console.log(this.stats);
-            this.timeArray = this.stats.map((obj) => {
-              let utc = obj.time;
-              let localTime = new Date(utc);
-              return localTime;
+        if (aggragateFunction) {
+          this.statisticsService.getWeatherStats(aggragateFunction, size, id, "24h", "99", "1h"); //every hour dld last day button
+          this.statsSubscription = this.statisticsService.getStatsUpdateListener()
+            .subscribe((weatherStats: Stats[]) => {
+              this.stats = weatherStats;
+              console.log(this.stats);
+              this.timeArray = this.stats.map((obj) => {
+                let utc = obj.time;
+                let localTime = new Date(utc);
+                return localTime;
+              });
+              this.statsArray = this.stats.map((obj) => {
+                return Math.trunc(obj.statistic_value);
+              });
+              this.createGraph(size, aggragateFunction);
+          });
+          break;
+        }
+        else {
+          this.statisticsService.getAllWeatherStats(size, id, "24h", "99", "1h");//every hour dld last day button
+          this.statsSubscription = this.statisticsService.getAllWeatherStatsUpdateListener()
+            .subscribe((weatherStats: Stats[]) => {
+              this.stats = weatherStats;
+              console.log(this.stats);
+              this.timeArray = this.stats.map((obj) => {
+                console.log("last hour",obj);
+                let utc= obj.time;
+                let localTime = new Date(utc);
+                return localTime;
+              });
+              this.maxStatsArray = this.stats.map((obj) => {
+                return Math.trunc(obj.max);
+              });
+              this.meanStatsArray = this.stats.map((obj) => {
+                return Math.trunc(obj.mean);
+              });
+              this.minStatsArray = this.stats.map((obj) => {
+                return Math.trunc(obj.min);
+              });
+              this.createMultilineGraph(size, "Max - Mean - Min");
             });
-            this.statsArray = this.stats.map((obj) => {
-              return Math.trunc(obj.statistic_value);
-            });
-            this.createGraph(size, aggragateFunction);
-        });
-        break;
+          break;
+        }
       case "Last week": //> select mean(main_temp), count(main_temp) from http where "name" = 'Thessaloniki' and time> now() - 6d group by time(1d)
-        this.statisticsService.getWeatherStats(aggragateFunction, size, id, "7d", "99", "1d"); //every day dld last week button
-        this.statsSubscription = this.statisticsService.getStatsUpdateListener()
-          .subscribe((weatherStats: Stats[]) => {
-            this.stats = weatherStats;
-            this.timeArray = this.stats.map((obj) => {
-              let utc = obj.time;
-              let localTime = new Date(utc);
-              return localTime;
+        if (aggragateFunction) {
+          this.statisticsService.getWeatherStats(aggragateFunction, size, id, "7d", "99", "6h"); //every day dld last week button
+          this.statsSubscription = this.statisticsService.getStatsUpdateListener()
+            .subscribe((weatherStats: Stats[]) => {
+              this.stats = weatherStats;
+              this.timeArray = this.stats.map((obj) => {
+                let utc = obj.time;
+                let localTime = new Date(utc);
+                return localTime;
+              });
+              this.statsArray = this.stats.map((obj) => {
+                return Math.trunc(obj.statistic_value);
+              });
+              console.log(this.timeArray);
+              this.createGraph(size, aggragateFunction);
+          });
+          break;
+        }
+        else {
+          this.statisticsService.getAllWeatherStats(size, id, "7d", "99", "6h"); //every day dld last week button
+          this.statsSubscription = this.statisticsService.getAllWeatherStatsUpdateListener()
+            .subscribe((weatherStats: Stats[]) => {
+              this.stats = weatherStats;
+              console.log(this.stats);
+              this.timeArray = this.stats.map((obj) => {
+                console.log("last hour",obj);
+                let utc= obj.time;
+                let localTime = new Date(utc);
+                return localTime;
+              });
+              this.maxStatsArray = this.stats.map((obj) => {
+                return Math.trunc(obj.max);
+              });
+              this.meanStatsArray = this.stats.map((obj) => {
+                return Math.trunc(obj.mean);
+              });
+              this.minStatsArray = this.stats.map((obj) => {
+                return Math.trunc(obj.min);
+              });
+              this.createMultilineGraph(size, "Max - Mean - Min");
             });
-            this.statsArray = this.stats.map((obj) => {
-              return Math.trunc(obj.statistic_value);
-            });
-            console.log(this.timeArray);
-            this.createGraph(size, aggragateFunction);
-        });
-        break;
+          break;
+        }
       case "Last month": //> select mean(main_temp), count(main_temp) from http where "name" = 'Thessaloniki' and time> now() - 29d group by time(1d)
-        this.statisticsService.getWeatherStats(aggragateFunction, size, id, "29d", "99", "1d"); //na to settarw
-        this.statsSubscription = this.statisticsService.getStatsUpdateListener()
-          .subscribe((weatherStats: Stats[]) => {
-            this.stats = weatherStats;
-            this.timeArray = this.stats.map((obj) => {
-              let utc = obj.time;
-              let localTime = new Date(utc);
-              return localTime;
+        if (aggragateFunction) {
+          this.statisticsService.getWeatherStats(aggragateFunction, size, id, "29d", "99", "1d"); //na to settarw
+          this.statsSubscription = this.statisticsService.getStatsUpdateListener()
+            .subscribe((weatherStats: Stats[]) => {
+              this.stats = weatherStats;
+              this.timeArray = this.stats.map((obj) => {
+                let utc = obj.time;
+                let localTime = new Date(utc);
+                return localTime;
+              });
+              this.statsArray = this.stats.map((obj) => {
+                return Math.trunc(obj.statistic_value);
+              });
+              console.log(this.timeArray);
+              this.createGraph(size, aggragateFunction);
+          });
+          break;
+        }
+        else {
+          this.statisticsService.getAllWeatherStats(size, id, "29d", "99", "1d"); //na to settarw
+          this.statsSubscription = this.statisticsService.getAllWeatherStatsUpdateListener()
+            .subscribe((weatherStats: Stats[]) => {
+              this.stats = weatherStats;
+              console.log(this.stats);
+              this.timeArray = this.stats.map((obj) => {
+                console.log("last hour",obj);
+                let utc= obj.time;
+                let localTime = new Date(utc);
+                return localTime;
+              });
+              this.maxStatsArray = this.stats.map((obj) => {
+                return Math.trunc(obj.max);
+              });
+              this.meanStatsArray = this.stats.map((obj) => {
+                return Math.trunc(obj.mean);
+              });
+              this.minStatsArray = this.stats.map((obj) => {
+                return Math.trunc(obj.min);
+              });
+              this.createMultilineGraph(size, "Max - Mean - Min");
             });
-            this.statsArray = this.stats.map((obj) => {
-              return Math.trunc(obj.statistic_value);
-            });
-            console.log(this.timeArray);
-            this.createGraph(size, aggragateFunction);
-        });
-        break;
+          break;
+        }
     
     }
   }
@@ -144,8 +258,26 @@ export class StatisticsComponent implements OnInit {
 
     console.log( [dateStart.getFullYear(), mnthStart, dayStart].join("-"));
 
-    this.statisticsService.getWeatherStats(aggragateFunction, size, id, [dateStart.getFullYear(), mnthStart, dayStart].join("-").toString(), [dateEnd.getFullYear(), mnthEnd, dayEnd].join("-").toString(), "1h");// group by 1h
-        this.statsSubscription = this.statisticsService.getStatsUpdateListener()
+    if (aggragateFunction) {
+      this.statisticsService.getWeatherStats(aggragateFunction, size, id, [dateStart.getFullYear(), mnthStart, dayStart].join("-").toString(), [dateEnd.getFullYear(), mnthEnd, dayEnd].join("-").toString(), "1h");// group by 1h
+      this.statsSubscription = this.statisticsService.getStatsUpdateListener()
+        .subscribe((weatherStats: Stats[]) => {
+          this.stats = weatherStats;
+          console.log(this.stats);
+          this.timeArray = this.stats.map((obj) => {
+            let utc= obj.time;
+            let localTime = new Date(utc);
+            return localTime;
+          });
+          this.statsArray = this.stats.map((obj) => {
+            return Math.trunc(obj.statistic_value);
+          });
+          this.createGraph(size, aggragateFunction);
+        });
+      }
+      else {
+        this.statisticsService.getAllWeatherStats(size, id, [dateStart.getFullYear(), mnthStart, dayStart].join("-").toString(), [dateEnd.getFullYear(), mnthEnd, dayEnd].join("-").toString(), "1h");// group by 1h
+        this.statsSubscription = this.statisticsService.getAllWeatherStatsUpdateListener()
           .subscribe((weatherStats: Stats[]) => {
             this.stats = weatherStats;
             console.log(this.stats);
@@ -154,11 +286,18 @@ export class StatisticsComponent implements OnInit {
               let localTime = new Date(utc);
               return localTime;
             });
-            this.statsArray = this.stats.map((obj) => {
-              return Math.trunc(obj.statistic_value);
+            this.maxStatsArray = this.stats.map((obj) => {
+              return Math.trunc(obj.max);
             });
-            this.createGraph(size, aggragateFunction);
+            this.meanStatsArray = this.stats.map((obj) => {
+              return Math.trunc(obj.mean);
+            });
+            this.minStatsArray = this.stats.map((obj) => {
+              return Math.trunc(obj.min);
+            });
+            this.createMultilineGraph(size, "Max - Mean - Min");
           });
+      }
   }
 
   getTimePeriod(event) { //get text from the buttons in first form
@@ -174,7 +313,27 @@ export class StatisticsComponent implements OnInit {
     }
     console.log(form);
     this.invalidRadioButton = false;
-    this.setStats(this.time_period, form.value.aggragateFunction, form.value.size, form.value.cityId);
+    this.endDate = new Date();
+    switch (this.time_period) {
+      case "Last hour":
+        this.startDate = new Date();
+      break;
+      case "Last day":
+        
+        this.startDate = new Date(this.timeArray[0]);//.setDate(this.endDate.getDate() - 1); //fix this
+        console.log(this.timeArray[0]);
+      break;
+    }
+    if(form.value.aggragateFunction != "All") {
+      this.setStats(this.time_period, form.value.aggragateFunction, form.value.size, form.value.cityId);
+    }
+    else {
+      this.setStats(this.time_period, null, form.value.size, form.value.cityId)
+    }
+    // setTimeout(() => {
+    //   form.reset();
+    // }, 2000);
+
   }
 
   //submit second form
@@ -195,7 +354,18 @@ export class StatisticsComponent implements OnInit {
     this.invalidRadioButton = false;
     let starttt = form2.value.startDate;
     console.log(starttt);
-    this.setCustomStats(form1.value.aggragateFunction, form1.value.size, form1.value.cityId, form2.value.startDate, form2.value.endDate);
+    if(form1.value.aggragateFunction != "All") {
+      this.setCustomStats(form1.value.aggragateFunction, form1.value.size, form1.value.cityId, form2.value.startDate, form2.value.endDate);
+    }
+    else {
+      this.setCustomStats(null, form1.value.size, form1.value.cityId, form2.value.startDate, form2.value.endDate);
+      //this.setCustomStats(form1.value.aggragateFunction, form1.value.size, form1.value.cityId, form2.value.startDate, form2.value.endDate);
+    }
+    // setTimeout(() => {
+    //   form1.reset();
+    //   form2.reset();
+    // }, 2000);
+
   }
 
   createGraph(size: string, aggragateFunction: string) {
@@ -248,4 +418,61 @@ export class StatisticsComponent implements OnInit {
   
   }
 
+  createMultilineGraph(size: string, aggragateFunction: string) {
+    this.isLoading = true;
+    let graphText: string, graphTitle: string;
+    graphTitle = aggragateFunction;
+    if (size == "main_humidity") {
+      graphText = " %";
+      graphTitle += " Humidity";
+    }
+    else if (size == "main_temp") {
+      graphText = " °C";
+      graphTitle += " Temperature";
+    }
+    else if (size == "wind_speed") {
+      graphText = " m/s";
+      graphTitle += " Wind";
+    }
+    else {
+      graphText = " %";
+      graphTitle += " Cloudiness";
+    }
+
+    this.chartOptions = {
+      chart: {
+        type: 'spline'
+      },
+      title: {
+        text: graphTitle
+      },
+      xAxis: {
+        categories: this.timeArray
+      },
+      yAxis: {          
+        title:{
+          text: graphText,
+          rotation: 0
+        } 
+      },
+      series: [
+        {
+          name: this.stats[0].city + " - max",
+          data: this.maxStatsArray
+        },
+        {
+          name: this.stats[0].city + " - mean",
+          data: this.meanStatsArray
+        },
+        {
+          name: this.stats[0].city + " - min",
+          data: this.minStatsArray
+        }
+      ]
+    };
+    console.log(this.chartOptions);
+    this.isLoading = false;
+    Highcharts.chart('container',this.chartOptions);
+  
+  }
 }
