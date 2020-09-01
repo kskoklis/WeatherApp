@@ -15,7 +15,7 @@ export class StatisticsService {
   constructor(private http: HttpClient) { }
   //get mean temperature here
   getWeatherStats(fun, size, city, start, end, period){
-    this.http.get<{message: string, result: any}>("http://83.212.118.254:3000/api/stats/" + fun + "/" + size + "/" + city + "/" + start + "/" + end + "/" + period)
+    this.http.get<{message: string, result: any}>("http://83.212.118.254:3000/api/stats/one/" + fun + "/" + size + "/" + city + "/" + start + "/" + end + "/" + period)
       .pipe(map((statsData) => {
         let cityArr = statsData.result[1].map(data => {
           return data.name  ;
@@ -54,6 +54,35 @@ export class StatisticsService {
   }
 
   getStatsUpdateListener(){
+    return this.statsUpdated.asObservable();
+  }
+
+  //get all functions
+  getAllWeatherStats(size, city, start, end, period){
+    this.http.get<{message: string, result: any}>("http://83.212.118.254:3000/api/stats/all/" + size + "/" + city + "/" + start + "/" + end + "/" + period)
+      .pipe(map((statsData) => {
+        let cityArr = statsData.result[1].map(data => {
+          return data.name;
+        });
+        
+        return statsData.result[0].map(stat => {    
+          return {
+            time: stat.time,
+            max: stat.max,
+            mean: stat.mean,
+            min: stat.min,
+            city: cityArr[0]
+          };
+        });       
+      }))
+      .subscribe(transformedStatsData => {
+        console.log(transformedStatsData);
+        this.statistics = transformedStatsData;
+        this.statsUpdated.next([...this.statistics])
+      });
+  }
+
+  getAllWeatherStatsUpdateListener(){
     return this.statsUpdated.asObservable();
   }
 }
