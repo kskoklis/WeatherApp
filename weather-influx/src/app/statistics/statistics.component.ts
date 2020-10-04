@@ -81,6 +81,8 @@ export class StatisticsComponent implements OnInit {
               this.statsArray = this.stats.map((obj) => {
                 return Math.trunc(obj.statistic_value);
               });
+              this.startDate = new Date(this.timeArray[0]);
+              this.endDate = new Date(this.timeArray[this.timeArray.length-1]);
               this.createGraph(size, aggragateFunction);
             });
           break;
@@ -106,6 +108,8 @@ export class StatisticsComponent implements OnInit {
               this.minStatsArray = this.stats.map((obj) => {
                 return Math.trunc(obj.min);
               });
+              this.startDate = new Date(this.timeArray[0]);
+              this.endDate = new Date(this.timeArray[this.timeArray.length-1]);
               this.createMultilineGraph(size, "Max - Mean - Min");
             });
           break;
@@ -125,6 +129,8 @@ export class StatisticsComponent implements OnInit {
               this.statsArray = this.stats.map((obj) => {
                 return Math.trunc(obj.statistic_value);
               });
+              this.startDate = new Date(this.timeArray[0]);
+              this.endDate = new Date(this.timeArray[this.timeArray.length-1]);
               this.createGraph(size, aggragateFunction);
           });
           break;
@@ -150,6 +156,8 @@ export class StatisticsComponent implements OnInit {
               this.minStatsArray = this.stats.map((obj) => {
                 return Math.trunc(obj.min);
               });
+              this.startDate = new Date(this.timeArray[0]);
+              this.endDate = new Date(this.timeArray[this.timeArray.length-1]);
               this.createMultilineGraph(size, "Max - Mean - Min");
             });
           break;
@@ -169,6 +177,8 @@ export class StatisticsComponent implements OnInit {
                 return Math.trunc(obj.statistic_value);
               });
               console.log(this.timeArray);
+              this.startDate = new Date(this.timeArray[0]);
+              this.endDate = new Date(this.timeArray[this.timeArray.length-1]);
               this.createGraph(size, aggragateFunction);
           });
           break;
@@ -194,6 +204,8 @@ export class StatisticsComponent implements OnInit {
               this.minStatsArray = this.stats.map((obj) => {
                 return Math.trunc(obj.min);
               });
+              this.startDate = new Date(this.timeArray[0]);
+              this.endDate = new Date(this.timeArray[this.timeArray.length-1]);
               this.createMultilineGraph(size, "Max - Mean - Min");
             });
           break;
@@ -213,6 +225,8 @@ export class StatisticsComponent implements OnInit {
                 return Math.trunc(obj.statistic_value);
               });
               console.log(this.timeArray);
+              this.startDate = new Date(this.timeArray[0]);
+              this.endDate = new Date(this.timeArray[this.timeArray.length-1]);
               this.createGraph(size, aggragateFunction);
           });
           break;
@@ -238,6 +252,8 @@ export class StatisticsComponent implements OnInit {
               this.minStatsArray = this.stats.map((obj) => {
                 return Math.trunc(obj.min);
               });
+              this.startDate = new Date(this.timeArray[0]);
+              this.endDate = new Date(this.timeArray[this.timeArray.length-1]);
               this.createMultilineGraph(size, "Max - Mean - Min");
             });
           break;
@@ -259,7 +275,7 @@ export class StatisticsComponent implements OnInit {
     console.log( [dateStart.getFullYear(), mnthStart, dayStart].join("-"));
 
     if (aggragateFunction) {
-      this.statisticsService.getWeatherStats(aggragateFunction, size, id, [dateStart.getFullYear(), mnthStart, dayStart].join("-").toString(), [dateEnd.getFullYear(), mnthEnd, dayEnd].join("-").toString(), "1h");// group by 1h
+      this.statisticsService.getWeatherStats(aggragateFunction, size, id, [dateStart.getFullYear(), mnthStart, dayStart].join("-").toString(), [dateEnd.getFullYear(), mnthEnd, dayEnd].join("-").toString(), "6h");// group by 1h
       this.statsSubscription = this.statisticsService.getStatsUpdateListener()
         .subscribe((weatherStats: Stats[]) => {
           this.stats = weatherStats;
@@ -276,7 +292,7 @@ export class StatisticsComponent implements OnInit {
         });
       }
       else {
-        this.statisticsService.getAllWeatherStats(size, id, [dateStart.getFullYear(), mnthStart, dayStart].join("-").toString(), [dateEnd.getFullYear(), mnthEnd, dayEnd].join("-").toString(), "1h");// group by 1h
+        this.statisticsService.getAllWeatherStats(size, id, [dateStart.getFullYear(), mnthStart, dayStart].join("-").toString(), [dateEnd.getFullYear(), mnthEnd, dayEnd].join("-").toString(), "6h");// group by 1h
         this.statsSubscription = this.statisticsService.getAllWeatherStatsUpdateListener()
           .subscribe((weatherStats: Stats[]) => {
             this.stats = weatherStats;
@@ -313,17 +329,17 @@ export class StatisticsComponent implements OnInit {
     }
     console.log(form);
     this.invalidRadioButton = false;
-    this.endDate = new Date();
-    switch (this.time_period) {
-      case "Last hour":
-        this.startDate = new Date();
-      break;
-      case "Last day":
+    // this.endDate = new Date();
+    // switch (this.time_period) {
+    //   case "Last hour":
+    //     // this.startDate = new Date();
+    //   break;
+    //   case "Last day":
         
-        this.startDate = new Date(this.timeArray[0]);//.setDate(this.endDate.getDate() - 1); //fix this
-        console.log(this.timeArray[0]);
-      break;
-    }
+    //     // this.startDate = new Date(this.timeArray[0]);//.setDate(this.endDate.getDate() - 1); //fix this
+    //     console.log(this.timeArray[0]);
+    //   break;
+    // }
     if(form.value.aggragateFunction != "All") {
       this.setStats(this.time_period, form.value.aggragateFunction, form.value.size, form.value.cityId);
     }
