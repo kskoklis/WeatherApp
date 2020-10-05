@@ -44,7 +44,7 @@ exports.userLogin = (req, res, next) => {
                         });
                     }
                     const token = jwt.sign({username: fetchedUser.username, userId: fetchedUser._id}, 
-                    'secret_for_web_token',
+                    process.env.JWT_KEY,
                     { expiresIn: "1h" });
                     res.status(200).json({
                         token: token,

@@ -7,16 +7,17 @@ const userRoutes = require("./routes/user");
 const weatherRoutes = require("./routes/influxdb");
 const statsRoutes = require("./routes/stats");
 const cityRoutes = require("./routes/city");
+const dotEnv = require('dotenv');
 
 const app = express();
-mongoose.connect("mongodb://admin:1nfluxDB@127.0.0.1:27017/users?authSource=admin", { useCreateIndex: true, useNewUrlParser: true})
+dotEnv.config();
+mongoose.connect("mongodb://admin:" + process.env.MONGO_PW + "@127.0.0.1:27017/users?authSource=admin", { useCreateIndex: true, useNewUrlParser: true})
 .then(()=>{
     console.log('Connected to database');
 })
 .catch(()=>{
     console.log('Connection failed!');
 });
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 
